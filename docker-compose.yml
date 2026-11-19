@@ -1,0 +1,22 @@
+# Local PostgreSQL for development, tests and e2e.
+# Databases: saree (dev), saree_test (pytest), saree_e2e (Playwright).
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: vaigai-malli-db
+    environment:
+      POSTGRES_USER: saree
+      POSTGRES_PASSWORD: saree_local_pw
+      POSTGRES_DB: saree
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U saree -d saree"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+volumes:
+  pgdata:
