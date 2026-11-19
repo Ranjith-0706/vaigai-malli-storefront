@@ -137,8 +137,8 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <h1 className="text-5xl sm:text-6xl">Checkout</h1>
+    <div className="mx-auto max-w-6xl px-4 pb-16 pt-8 sm:px-6">
+      <h1 className="border-b border-rule pb-4 text-4xl sm:text-5xl">Checkout</h1>
       <p className="mt-3 max-w-2xl text-sm text-muted">Guest checkout. This is a demo: the next step is a simulated payment and no money is charged.</p>
 
       {quoteError && (

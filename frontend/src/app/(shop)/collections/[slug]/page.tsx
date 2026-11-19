@@ -21,18 +21,22 @@ export default async function CollectionPage({ params, searchParams }: { params:
   const c = await getCollection(slug);
   if (!c) notFound();
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <nav aria-label="Breadcrumb" className="mb-4 text-sm text-muted">
-        <Link href="/collections" className="link">
-          Collections
-        </Link>{" "}
-        / <span aria-current="page">{c.name}</span>
-      </nav>
-      <header className="mb-10 border-b border-line pb-8">
-        <h1 className="text-5xl sm:text-6xl">{c.name}</h1>
-        <p className="mt-3 max-w-2xl text-muted">{c.description}</p>
-      </header>
-      <Listing basePath={`/collections/${c.slug}`} searchParams={await searchParams} collectionSlug={c.slug} />
-    </div>
+    <Listing
+      basePath={`/collections/${c.slug}`}
+      searchParams={await searchParams}
+      collectionSlug={c.slug}
+      collectionName={c.name}
+      eyebrow="Collection"
+      title={c.name}
+      intro={c.description}
+      breadcrumb={
+        <nav aria-label="Breadcrumb" className="mb-3 text-sm text-muted">
+          <Link href="/collections" className="link">
+            Collections
+          </Link>{" "}
+          / <span aria-current="page">{c.name}</span>
+        </nav>
+      }
+    />
   );
 }

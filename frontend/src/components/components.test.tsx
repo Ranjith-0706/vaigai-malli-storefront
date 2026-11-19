@@ -13,6 +13,19 @@ const base: ProductSummary = {
 };
 
 describe("ProductCard", () => {
+  it("shows colour and category as the subtitle, without inventing origin details", () => {
+    render(<ProductCard p={base} />);
+    expect(screen.getByText(/Ivory · Soft Silk/)).toBeInTheDocument();
+  });
+  it("adds a decorative second image only when the listing supplies one", () => {
+    const { container, rerender } = render(<ProductCard p={base} />);
+    expect(container.querySelectorAll("img")).toHaveLength(1);
+    rerender(<ProductCard p={{ ...base, hover_image_url: "/b.svg" }} />);
+    const imgs = container.querySelectorAll("img");
+    expect(imgs).toHaveLength(2);
+    expect(imgs[1]).toHaveAttribute("alt", "");
+    expect(imgs[1]).toHaveAttribute("aria-hidden", "true");
+  });
   it("shows price and links to the product", () => {
     render(<ProductCard p={base} />);
     expect(screen.getByRole("link")).toHaveAttribute("href", "/products/x");

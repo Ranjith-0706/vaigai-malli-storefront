@@ -1,6 +1,6 @@
 export const SITE = {
   name: "Vaigai Malli",
-  tagline: "Temple-border silks and handloom cottons",
+  tagline: "Temple-border silks and everyday cottons",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   // All business details below are fictional placeholders for the demo.
   demoEmail: "hello@vaigaimalli.example",

@@ -1,4 +1,4 @@
-import { rupeesToPaise } from "./format";
+import { formatINR, rupeesToPaise } from "./format";
 
 export type SearchParams = Record<string, string | string[] | undefined>;
 
@@ -63,4 +63,66 @@ export function activeFilterCount(sp: SearchParams): number {
     (first(sp.in_stock) === "true" ? 1 : 0) +
     (first(sp.q) ? 1 : 0)
   );
+}
+
+export type FilterState = {
+  q: string;
+  category: string[];
+  color: string[];
+  min: string;
+  max: string;
+  inStock: boolean;
+  sort: string;
+};
+
+export function filterStateFromParams(sp: SearchParams): FilterState {
+  return {
+    q: first(sp.q),
+    category: asArray(sp.category),
+    color: asArray(sp.color),
+    min: first(sp.min),
+    max: first(sp.max),
+    inStock: first(sp.in_stock) === "true",
+    sort: SORT_VALUES.includes(first(sp.sort)) ? first(sp.sort) : "featured",
+  };
+}
+
+/** Public URL for a filter state. Empty values and the default sort are omitted; `page` is always reset. */
+export function buildFilterHref(basePath: string, f: FilterState): string {
+  const q = new URLSearchParams();
+  if (f.q.trim()) q.set("q", f.q.trim());
+  f.category.forEach((c) => q.append("category", c));
+  f.color.forEach((c) => q.append("color", c));
+  if (f.min.trim()) q.set("min", f.min.trim());
+  if (f.max.trim()) q.set("max", f.max.trim());
+  if (f.inStock) q.set("in_stock", "true");
+  if (f.sort && f.sort !== "featured") q.set("sort", f.sort);
+  const s = q.toString();
+  return s ? `${basePath}?${s}` : basePath;
+}
+
+export type FilterChip = { key: string; label: string; href: string };
+
+/** One removable chip per active filter; each `href` is the current state minus that filter (a plain link, so it works without JS). */
+export function activeChips(basePath: string, sp: SearchParams): FilterChip[] {
+  const f = filterStateFromParams(sp);
+  const href = (patch: Partial<FilterState>) => buildFilterHref(basePath, { ...f, ...patch });
+  const chips: FilterChip[] = [];
+  if (f.q.trim()) chips.push({ key: "q", label: `Search: “${f.q.trim()}”`, href: href({ q: "" }) });
+  f.category.forEach((c) => chips.push({ key: `category:${c}`, label: c, href: href({ category: f.category.filter((x) => x !== c) }) }));
+  f.color.forEach((c) => chips.push({ key: `color:${c}`, label: c, href: href({ color: f.color.filter((x) => x !== c) }) }));
+  const min = rupeesToPaise(f.min);
+  const max = rupeesToPaise(f.max);
+  if (min !== null) chips.push({ key: "min", label: `From ${formatINR(min)}`, href: href({ min: "" }) });
+  if (max !== null) chips.push({ key: "max", label: `Up to ${formatINR(max)}`, href: href({ max: "" }) });
+  if (f.inStock) chips.push({ key: "in_stock", label: "In stock only", href: href({ inStock: false }) });
+  return chips;
+}
+
+/** "15 sarees", "4 sarees in Kanchipuram Silk", "3 sarees matching “ivory”". */
+export function resultSummary(total: number, opts: { collectionName?: string; q?: string }): string {
+  let s = `${total} ${total === 1 ? "saree" : "sarees"}`;
+  if (opts.collectionName) s += ` in ${opts.collectionName}`;
+  if (opts.q?.trim()) s += ` matching “${opts.q.trim()}”`;
+  return s;
 }

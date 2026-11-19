@@ -5,6 +5,7 @@ const PAGES = [
   "/",
   "/shop",
   "/shop?q=zzzz",
+  "/shop?category=Soft+Silk&color=Ivory&sort=price_asc",
   "/collections",
   "/collections/kanchipuram-silks",
   "/products/thodarkodi-jasmine-ivory",

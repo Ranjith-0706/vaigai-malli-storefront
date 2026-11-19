@@ -18,7 +18,7 @@ export function OrderSummary({
   note?: string;
 }) {
   return (
-    <section aria-label="Order summary" className="border border-line bg-parchment/60 p-5">
+    <section aria-label="Order summary" className="border-t-2 border-rule bg-parchment/55 p-5">
       <h2 className="text-2xl">Order summary</h2>
       <ul className="mt-4 divide-y divide-line">
         {lines.map((l) => (

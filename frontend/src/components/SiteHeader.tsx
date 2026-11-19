@@ -55,11 +55,11 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-ivory/95 backdrop-blur-sm no-print">
-      <div className="bg-maroon-deep px-4 py-1.5 text-center text-xs tracking-wide text-ivory" role="note">
+    <header className="sticky top-0 z-40 border-b border-rule bg-ivory/95 backdrop-blur-sm no-print">
+      <div className="bg-maroon-deep px-4 py-1 text-center text-[0.7rem] tracking-[0.08em] text-ivory/90" role="note">
         <strong className="font-semibold">Demo store</strong> · sample products &amp; policies · payments are simulated, no money is charged
       </div>
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
         <button
           ref={menuBtn}
           type="button"
@@ -78,17 +78,17 @@ export function SiteHeader() {
           <LogoMark size={38} />
           <span className="leading-[1.05]">
             <span className="font-display text-[1.6rem] font-bold text-maroon-deep">{SITE.name}</span>
-            <span className="mt-1 hidden text-[0.62rem] uppercase tracking-[0.22em] text-gold-ink sm:block">Silks &amp; handlooms</span>
+            <span className="mt-1 hidden text-[0.62rem] uppercase tracking-[0.22em] text-gold-ink sm:block">Silk sarees · demo</span>
           </span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-9 lg:flex">
           {NAV.map((n) => (
             <Link
               key={n.href}
               href={n.href}
               aria-current={path === n.href || path.startsWith(n.href + "/") ? "page" : undefined}
-              className="relative py-1 text-sm font-semibold tracking-wide text-ink hover:text-maroon aria-[current=page]:text-maroon aria-[current=page]:after:absolute aria-[current=page]:after:inset-x-0 aria-[current=page]:after:-bottom-0.5 aria-[current=page]:after:h-0.5 aria-[current=page]:after:bg-gold"
+              className="relative py-1 text-[0.78rem] font-semibold uppercase tracking-[0.16em] text-ink hover:text-maroon aria-[current=page]:text-maroon aria-[current=page]:after:absolute aria-[current=page]:after:inset-x-0 aria-[current=page]:after:-bottom-0.5 aria-[current=page]:after:h-0.5 aria-[current=page]:after:bg-gold"
             >
               {n.label}
             </Link>
@@ -138,7 +138,7 @@ export function SiteHeader() {
 
       {open && (
         <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" className="fixed inset-0 z-50 flex lg:hidden">
-          <div className="flex w-[84%] max-w-sm flex-col bg-ivory p-6 shadow-2xl rise">
+          <div className="flex w-[84%] max-w-sm flex-col bg-ivory p-6 rise">
             <div className="mb-6 flex items-center justify-between">
               <span className="font-display text-2xl font-bold text-maroon-deep">{SITE.name}</span>
               <button type="button" className="grid h-11 w-11 place-items-center text-maroon" aria-label="Close menu" onClick={() => setOpen(false)} autoFocus>

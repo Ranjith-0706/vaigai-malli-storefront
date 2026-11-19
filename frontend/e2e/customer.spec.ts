@@ -1,8 +1,13 @@
 import { expect, test, type Page } from "@playwright/test";
 
-async function openFilters(page: Page) {
+/** Tick one option in a filter group. Desktop applies instantly; on mobile the sheet must be opened and "Show results" pressed. */
+async function chooseFilter(page: Page, group: "Fabric" | "Colour", option: string) {
   const toggle = page.getByRole("button", { name: /Filters & sort/ });
-  if (await toggle.isVisible()) await toggle.click(); // collapsed on mobile
+  const mobile = await toggle.isVisible();
+  if (mobile) await toggle.click();
+  await page.locator("summary", { hasText: group }).click();
+  await page.getByRole("checkbox", { name: option }).check();
+  if (mobile) await page.getByRole("button", { name: "Show results" }).click();
 }
 
 async function fillCheckout(page: Page, email: string) {
@@ -23,9 +28,8 @@ test("customer journey: discover, filter, add to cart, check out, pay (demo) and
   await expect(page).toHaveURL(/\/shop/);
   await expect(page.getByTestId("result-count")).toContainText(/\d+ sarees/);
 
-  // filter by category (auto-submits)
-  await openFilters(page);
-  await page.getByRole("checkbox", { name: "Soft Silk" }).check();
+  // filter by category
+  await chooseFilter(page, "Fabric", "Soft Silk");
   await expect(page).toHaveURL(/category=Soft\+Silk/);
   await expect(page.getByTestId("result-count")).toContainText("3 sarees");
 

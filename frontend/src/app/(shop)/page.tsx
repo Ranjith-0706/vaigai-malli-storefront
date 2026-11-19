@@ -39,7 +39,7 @@ export default async function Home() {
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-16 pt-24 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:pb-24 lg:pt-28">
           <div>
             <p className="rise inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-gold-ink">
-              <Jasmine size={18} /> Madurai · Kanchipuram · Handloom
+              <Jasmine size={18} /> Temple-border silk · Illustrated demo
             </p>
             <h1 className="rise d1 mt-4 text-[clamp(2.7rem,7vw,5.2rem)] text-balance">
               Temple-border silks, <em className="font-medium text-maroon">strung like jasmine.</em>
@@ -64,12 +64,12 @@ export default async function Home() {
 
           {hero && (
             <Link href={`/products/${hero.slug}`} className="bloom group relative mx-auto block w-full max-w-md" aria-label={`View ${hero.name}`}>
-              <div className="arch border-[6px] border-maroon bg-ivory p-2 shadow-card">
+              <div className="arch border-[6px] border-maroon bg-ivory p-2">
                 <div className="arch overflow-hidden">
                   <img src={hero.image_url} alt={hero.image_alt} width={800} height={1000} className="aspect-[4/5] w-full object-cover transition-transform duration-700 group-hover:scale-105" fetchPriority="high" />
                 </div>
               </div>
-              <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap bg-ivory px-5 py-2 text-sm font-semibold text-maroon shadow-card">
+              <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap bg-ivory px-5 py-2 text-sm font-semibold text-maroon border border-rule">
                 {hero.name} →
               </span>
             </Link>

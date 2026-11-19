@@ -34,8 +34,8 @@ export default function CartPage() {
   const goodLines = quote?.lines.filter((l) => l.status === "ok" || l.status === "reduced") ?? [];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <h1 className="text-5xl sm:text-6xl">Your cart</h1>
+    <div className="mx-auto max-w-6xl px-4 pb-16 pt-8 sm:px-6">
+      <h1 className="border-b border-rule pb-4 text-4xl sm:text-5xl">Your cart</h1>
 
       {error && (
         <div role="alert" className="mt-6 flex flex-wrap items-center gap-3 border border-danger bg-danger-soft px-4 py-3 text-sm text-danger">
