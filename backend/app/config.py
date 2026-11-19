@@ -34,9 +34,9 @@ class Settings(BaseSettings):
     def sqlalchemy_database_url(self) -> str:
         """Use psycopg 3 for standard provider PostgreSQL URLs."""
         if self.database_url.startswith("postgres://"):
-            return "postgresql+psycopg://" + self.database_url[len("postgres://"):]
+            return "postgresql+psycopg://" + self.database_url[len("postgres://") :]
         if self.database_url.startswith("postgresql://"):
-            return "postgresql+psycopg://" + self.database_url[len("postgresql://"):]
+            return "postgresql+psycopg://" + self.database_url[len("postgresql://") :]
         return self.database_url
 
     @property
