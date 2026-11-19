@@ -9,7 +9,7 @@ target_metadata = Base.metadata
 
 
 def run_migrations_online() -> None:
-    url = context.get_x_argument(as_dictionary=True).get("url") or get_settings().database_url
+    url = context.get_x_argument(as_dictionary=True).get("url") or get_settings().sqlalchemy_database_url
     engine = create_engine(url)
     with engine.connect() as connection:
         context.configure(connection=connection, target_metadata=target_metadata, compare_type=True)

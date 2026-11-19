@@ -44,6 +44,7 @@ jobs:
       - name: Migration drift check
         run: alembic upgrade head && alembic check
       - run: pytest --cov=app --cov-report=term-missing
+      - run: docker build -t vaigai-malli-api:ci .
 
   frontend:
     runs-on: ubuntu-latest

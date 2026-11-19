@@ -31,6 +31,15 @@ class Settings(BaseSettings):
         return self
 
     @property
+    def sqlalchemy_database_url(self) -> str:
+        """Use psycopg 3 for standard provider PostgreSQL URLs."""
+        if self.database_url.startswith("postgres://"):
+            return "postgresql+psycopg://" + self.database_url[len("postgres://") :]
+        if self.database_url.startswith("postgresql://"):
+            return "postgresql+psycopg://" + self.database_url[len("postgresql://") :]
+        return self.database_url
+
+    @property
     def cors_origin_list(self) -> list[str]:
         return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
 

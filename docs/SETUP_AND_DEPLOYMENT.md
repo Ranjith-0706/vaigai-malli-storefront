@@ -87,7 +87,7 @@ Screenshots: with the dev stack running, `node scripts/screenshots.mjs ../docs/s
 Regenerate product art: `python scripts/generate_product_art.py`.
 
 ## 5. CI
-`.github/workflows/ci.yml`: **backend** (ruff, format check, mypy, migration drift, pytest + coverage, against a Postgres service), **frontend** (lint, typecheck, vitest, build), **e2e** (Playwright desktop + mobile + axe, uploads the report). It uses only throw-away credentials for the ephemeral Postgres container; no secrets. *The workflow file has not been executed on GitHub in this session; its commands were each run locally.*
+`.github/workflows/ci.yml`: **backend** (ruff, format check, mypy, migration drift, pytest + coverage, against a Postgres service), **frontend** (lint, typecheck, vitest, build), **e2e** (Playwright desktop + mobile + axe, uploads the report). It uses only throw-away credentials for the ephemeral Postgres container; no secrets. The first GitHub Actions run on main passed on 2026-11-19. The deployment changes are checked by a new pull request run.
 
 ## 6. Practical deployment path (low cost, single region)
 1. **PostgreSQL**: managed Postgres (e.g. Neon, Supabase, Railway, or a cloud provider's managed instance) in an Indian region if possible. Enable daily backups and point-in-time recovery. Use a strong password; restrict network access to the API.
