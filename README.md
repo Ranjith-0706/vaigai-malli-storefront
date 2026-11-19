@@ -46,6 +46,7 @@ npm run dev                                            # http://localhost:3000
 | [FINAL_REPORT](docs/FINAL_REPORT.md) | what works, limitations, next steps |
 | [CLIENT_HANDOFF](docs/CLIENT_HANDOFF.md) | plain-English demo walkthrough + launch checklist |
 | [ASSETS](docs/ASSETS.md) | asset provenance and licences |
+| [DEPLOY_RAILWAY_VERCEL](docs/DEPLOY_RAILWAY_VERCEL.md) | $0 portfolio deployment steps and limitations |
 
 ## Repository layout
 
