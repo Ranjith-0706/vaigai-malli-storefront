@@ -36,6 +36,7 @@ def to_summary(p: Product) -> ProductSummary:
         featured=p.featured,
         image_url=first.url if first else "",
         image_alt=first.alt if first else p.name,
+        hover_image_url=p.images[1].url if len(p.images) > 1 else None,
         collection_slug=p.collection.slug if p.collection else None,
     )
 

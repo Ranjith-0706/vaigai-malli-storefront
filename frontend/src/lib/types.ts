@@ -14,6 +14,7 @@ export type ProductSummary = {
   featured: boolean;
   image_url: string;
   image_alt: string;
+  hover_image_url?: string | null;
   collection_slug: string | null;
 };
 

@@ -8,14 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default async function ShopPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const sp = await searchParams;
-  return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <header className="mb-10 border-b border-line pb-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-ink">The collection</p>
-        <h1 className="mt-2 text-5xl sm:text-6xl">All sarees</h1>
-      </header>
-      <Listing basePath="/shop" searchParams={sp} />
-    </div>
-  );
+  return <Listing basePath="/shop" searchParams={await searchParams} eyebrow="The collection" title="All sarees" />;
 }

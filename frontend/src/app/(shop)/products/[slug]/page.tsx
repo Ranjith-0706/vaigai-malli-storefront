@@ -55,7 +55,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+    <div className="mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted">
         <Link href="/shop" className="link">
@@ -77,7 +77,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <Gallery images={p.images} inStock={p.in_stock} />
 
         <div className="lg:sticky lg:top-32 lg:self-start">
-          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-gold-ink">
+          <p className="eyebrow flex items-center gap-2">
             {p.category} <DemoPill />
           </p>
           <h1 className="mt-2 text-4xl sm:text-5xl">{p.name}</h1>
@@ -150,8 +150,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </div>
 
       {p.related.length > 0 && (
-        <section className="mt-24" aria-labelledby="related-h">
-          <h2 id="related-h" className="mb-8 text-4xl">
+        <section className="rule mt-20 pt-10" aria-labelledby="related-h">
+          <h2 id="related-h" className="mb-8 text-3xl sm:text-4xl">
             You may also like
           </h2>
           <ProductGrid items={p.related} />

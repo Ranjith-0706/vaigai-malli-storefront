@@ -59,6 +59,8 @@ class ProductSummary(ORM):
     featured: bool
     image_url: str
     image_alt: str
+    # second image by position (e.g. border close-up), used for the listing hover; None if the product has only one
+    hover_image_url: str | None = None
     collection_slug: str | None = None
 
 

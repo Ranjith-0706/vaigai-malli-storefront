@@ -1,6 +1,7 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
+from app.models import ProductImage
 from tests.conftest import make_product
 
 
@@ -103,3 +104,14 @@ def test_product_detail_related_and_archived_404(client: TestClient, db: Session
     assert client.get("/api/v1/products/e").status_code == 404
     assert client.get("/api/v1/products/nope").status_code == 404
     assert client.get("/api/v1/products/e").json()["error"]["code"] == "not_found"
+
+
+def test_listing_exposes_second_image_only_when_it_exists(client: TestClient, db: Session) -> None:
+    one = make_product(db, slug="one-image", name="One Image")
+    two = make_product(db, slug="two-images", name="Two Images")
+    two.images.append(ProductImage(url="/products/two-images/border.svg", alt="Border", position=1))
+    db.commit()
+    items = {i["slug"]: i for i in client.get("/api/v1/products").json()["items"]}
+    assert items[one.slug]["hover_image_url"] is None
+    assert items[two.slug]["image_url"].endswith("drape.svg")
+    assert items[two.slug]["hover_image_url"] == "/products/two-images/border.svg"

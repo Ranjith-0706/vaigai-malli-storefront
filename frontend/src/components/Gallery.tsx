@@ -25,7 +25,7 @@ export function Gallery({ images, inStock }: { images: ProductImage[]; inStock: 
         ))}
       </div>
       <div className="order-1 sm:order-2">
-        <div className="relative aspect-[4/5] overflow-hidden border border-line bg-parchment">
+        <div className="relative aspect-[4/5] overflow-hidden bg-parchment">
           <img
             key={current.id}
             src={current.url}

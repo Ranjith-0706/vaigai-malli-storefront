@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { addItem, MAX_LINE_QTY, removeItem, sanitize, setQuantity, totalCount } from "./cart";
-import { activeFilterCount, toApiQuery, withParams } from "./catalogQuery";
+import { activeChips, activeFilterCount, buildFilterHref, filterStateFromParams, resultSummary, toApiQuery, withParams } from "./catalogQuery";
 import { formatINR, rupeesToPaise } from "./format";
 import { validateCheckout, type CheckoutForm } from "./india";
 
@@ -82,5 +82,40 @@ describe("checkout validation", () => {
   });
   it("skips address checks for pickup", () => {
     expect(validateCheckout({ ...ok, line1: "", city: "", state: "", pincode: "" }, false)).toEqual({});
+  });
+});
+
+describe("filter URL helpers", () => {
+  const sp = { q: " ivory ", category: ["Soft Silk", "Silk Cotton"], color: "Ivory", min: "5000", max: "20000", in_stock: "true", sort: "price_asc", page: "3" };
+
+  it("round-trips URL params through the filter state and drops page", () => {
+    const state = filterStateFromParams(sp);
+    expect(state).toMatchObject({ q: " ivory ", category: ["Soft Silk", "Silk Cotton"], color: ["Ivory"], min: "5000", max: "20000", inStock: true, sort: "price_asc" });
+    const href = buildFilterHref("/shop", state);
+    expect(href).toBe("/shop?q=ivory&category=Soft+Silk&category=Silk+Cotton&color=Ivory&min=5000&max=20000&in_stock=true&sort=price_asc");
+    expect(href).not.toContain("page=");
+  });
+  it("omits empty values, the default sort and unknown sorts", () => {
+    expect(buildFilterHref("/collections/x", filterStateFromParams({}))).toBe("/collections/x");
+    expect(buildFilterHref("/shop", filterStateFromParams({ sort: "featured" }))).toBe("/shop");
+    expect(buildFilterHref("/shop", filterStateFromParams({ sort: "bogus" }))).toBe("/shop");
+  });
+  it("builds one removable chip per active filter, each linking to the state without it", () => {
+    const chips = activeChips("/shop", sp);
+    expect(chips.map((c) => c.label)).toEqual(["Search: “ivory”", "Soft Silk", "Silk Cotton", "Ivory", "From ₹5,000", "Up to ₹20,000", "In stock only"]);
+    const soft = chips.find((c) => c.label === "Soft Silk")!;
+    expect(soft.href).toContain("category=Silk+Cotton");
+    expect(soft.href).not.toContain("category=Soft");
+    expect(soft.href).toContain("sort=price_asc"); // sort is kept
+    expect(chips.find((c) => c.label === "In stock only")!.href).not.toContain("in_stock");
+    expect(activeChips("/shop", {})).toEqual([]);
+    expect(chips).toHaveLength(activeFilterCount(sp));
+  });
+  it("describes the result count with collection and search term", () => {
+    expect(resultSummary(15, {})).toBe("15 sarees");
+    expect(resultSummary(1, {})).toBe("1 saree");
+    expect(resultSummary(4, { collectionName: "Kanchipuram Silk" })).toBe("4 sarees in Kanchipuram Silk");
+    expect(resultSummary(0, { q: "zzzz" })).toBe("0 sarees matching “zzzz”");
+    expect(resultSummary(2, { collectionName: "Temple Border Classics", q: "red" })).toBe("2 sarees in Temple Border Classics matching “red”");
   });
 });
